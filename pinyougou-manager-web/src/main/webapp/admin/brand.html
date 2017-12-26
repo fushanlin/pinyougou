@@ -15,7 +15,7 @@
 	<!--引入angular-->
 	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
 
-	<script>
+<!--	<script>
         var app=angular.module('pinyougou', ['pagination']);//定义模块	之前使用的是《$http模块》
         app.controller('brandController' ,function($scope,brandService){
 
@@ -144,14 +144,17 @@
             //刷新列表
 
         });
-	</script>
+	</script>-->
+
+	<script type="text/javascript" src="../js/base_pagination.js"></script>
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+	<script type="text/javascript" src="../js/controller/brandController.js"></script>
+	<script type="text/javascript" src="../js/service/brandService.js"></script>
 
 	<!-- 分页组件开始 -->
 	<script src="../plugins/angularjs/pagination.js"></script>
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
 	<!-- 分页组件结束 -->
-
-
 
 </head>
 <!--ng-init="findAll()"-->
