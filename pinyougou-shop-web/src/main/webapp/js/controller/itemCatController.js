@@ -111,8 +111,14 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
     $scope.findSpecList=function(){
         itemCatService.selectSpecList().success(
             function(response){
-                $scope.specList=response;
+                $scope.specList={data:response};
             }
         );
     };
+
+    //规格列表数据
+    this.selectSpecList=function(){
+        return $http.get('../specification/selectSpecList.do');
+    };
+
 });	

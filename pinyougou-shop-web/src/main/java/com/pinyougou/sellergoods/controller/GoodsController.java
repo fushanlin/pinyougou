@@ -1,11 +1,13 @@
 package com.pinyougou.sellergoods.controller;
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojogroup.Goods;
 import com.pinyougou.sellergoods.service.GoodsService;
 
 import entity.PageResult;
@@ -37,25 +39,11 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/findPage")
-	public PageResult  findPage(int page,int rows){			
+	public PageResult  findPage(int page,int rows){		
 		return goodsService.findPage(page, rows);
 	}
 	
-	/**
-	 * 增加
-	 * @param goods
-	 * @return
-	 */
-	@RequestMapping("/add")
-	public Result add(@RequestBody TbGoods goods){
-		try {
-			goodsService.add(goods);
-			return new Result(true, "增加成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Result(false, "增加失败");
-		}
-	}
+
 	
 	/**
 	 * 修改
@@ -63,7 +51,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public Result update(@RequestBody TbGoods goods){
+	public Result update(@RequestBody Goods goods){
 		try {
 			goodsService.update(goods);
 			return new Result(true, "修改成功");
@@ -79,7 +67,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbGoods findOne(Long id){
+	public Goods findOne(Long id){
 		return goodsService.findOne(id);		
 	}
 	
@@ -108,7 +96,59 @@ public class GoodsController {
 	 */
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody TbGoods goods, int page, int rows  ){
+		//获取商家ID
+		String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+		//添加查询条件 
+		goods.setSellerId(sellerId);		
 		return goodsService.findPage(goods, page, rows);		
 	}
+	/**
+	 * 增加
+	 * @param goods
+	 * @return
+	 */
+	@RequestMapping("/add")
+	public Result add(@RequestBody Goods goods){
+		//获取登录名
+		String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+		goods.getGoods().setSellerId(sellerId);//设置商家ID
+		try {
+			goodsService.add(goods);
+			return new Result(true, "增加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "增加失败");
+		}
+	}
 	
+	/**
+	 * 增加
+	 * @param goods
+	 * @return
+	 */
+/*	@RequestMapping("/add")
+	public Result add(@RequestBody TbGoods goods){
+		try {
+			goodsService.add(goods);
+			return new Result(true, "增加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "增加失败");
+		}
+	}*/
+	/**
+	 * 更新状态
+	 * @param ids
+	 * @param status
+	 */
+	@RequestMapping("/updateStatus")
+	public Result updateStatus(Long[] ids, String status){		
+		try {
+			goodsService.updateStatus(ids, status);
+			return new Result(true, "成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "失败");
+		}
+	}
 }

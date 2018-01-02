@@ -2,6 +2,8 @@ package com.pinyougou.mapper;
 
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbGoodsExample;
+import com.pinyougou.pojogroup.Goods;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,5 +28,5 @@ public interface TbGoodsMapper {
 
     int updateByPrimaryKeySelective(TbGoods record);
 
-    int updateByPrimaryKey(TbGoods record);
+    int updateByPrimaryKey(TbGoods tbGoods);
 }

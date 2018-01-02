@@ -75,5 +75,15 @@ app.controller('itemController' ,function($scope,$controller   ,itemService){
 			}			
 		);
 	}
-    
+
+
+    //查询一级商品分类列表
+    $scope.selectItemCat1List=function () {
+        itemCatService.findByParentId(0).success(
+            function (response) {
+                $scope.itemCat1List = response;
+            }
+        );
+    }
+
 });	

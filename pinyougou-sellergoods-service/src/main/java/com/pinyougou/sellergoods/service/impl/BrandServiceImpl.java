@@ -22,6 +22,9 @@ import entity.PageResult;
 @Service
 public class BrandServiceImpl implements BrandService {
 
+	public BrandServiceImpl(){
+		System.out.println("BrandServiceImpl");
+	}
 	@Autowired
 	private TbBrandMapper brandMapper;
 	
