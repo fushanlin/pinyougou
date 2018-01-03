@@ -53,7 +53,7 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,$loca
                 }
             }
         );
-    }
+    };
 	
 	//保存 
 /*	$scope.save=function(){
@@ -243,7 +243,7 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,$loca
             $scope.entity.goodsDesc.specificationItems.push(
                 {"attributeName":name,"attributeValue":[value]});
         }
-    }
+    };
 
     //创建SKU列表
     $scope.createItemList=function(){
