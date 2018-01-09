@@ -298,10 +298,10 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,$loca
     }
 
     //SKU列表规格列转换
-    for( var i=0;i<$scope.entity.itemList.length;i++ ){
+/*    for( var i=0;i<$scope.entity.itemList.length;i++ ){
         $scope.entity.itemList[i].spec =
             JSON.parse( $scope.entity.itemList[i].spec);
-    }
+    }*/
 
     //更改状态
     $scope.updateStatus=function(status){

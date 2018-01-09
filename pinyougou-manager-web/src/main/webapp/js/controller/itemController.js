@@ -86,4 +86,6 @@ app.controller('itemController' ,function($scope,$controller   ,itemService){
         );
     }
 
+
+
 });	
