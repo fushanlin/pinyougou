@@ -154,7 +154,7 @@ public class GoodsServiceImpl implements GoodsService {
 		for(Long id:ids){
 			TbGoods goods = goodsMapper.selectByPrimaryKey(id);
 			goods.setIsDelete("1");
-			goodsMapper.updateByPrimaryKey(goods);
+			goodsMapper.deleteByPrimaryKey(id);
 		}	
 	}
 

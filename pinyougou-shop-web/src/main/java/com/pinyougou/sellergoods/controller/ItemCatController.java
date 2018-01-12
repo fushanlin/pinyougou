@@ -18,9 +18,6 @@ import entity.Result;
 @RestController
 @RequestMapping("/itemCat")
 public class ItemCatController {
-	public ItemCatController(){
-		System.out.println("ItemCatController");
-	}
 
 	@Reference
 	private ItemCatService itemCatService;

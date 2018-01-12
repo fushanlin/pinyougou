@@ -87,8 +87,8 @@
 				</div>
 				<div class="fr itemInfo-wrap">
 					<div class="sku-name">
-						<#--<h4>${goods.goodsName}</h4>-->
-						<h4>${{sku.title}}</h4>
+						<h4>${goods.goodsName}</h4>
+						<#--<h4>${{sku.title}}</h4>-->
 					</div>
 					<div class="news"><span>${goods.caption}<</span></div>
 					<div class="summary">

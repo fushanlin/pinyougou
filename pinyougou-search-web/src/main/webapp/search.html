@@ -330,10 +330,13 @@
             <div class="goods-list">
                 <ul class="yui3-g">
                     <li class="yui3-u-1-5" ng-repeat="item in resultMap.rows">
+
                         <div class="list-wrap">
+                            <a href="http://localhost:9105/{{item.id}}.html" target="_blank">
                             <div class="p-img">
-                                <a href="http://localhost:9105/page/{{item.id}}.html" target="_blank"><img ng-src="{{item.image}}"/></a>
+                                <img ng-src="{{item.image}}"/>
                             </div>
+                            </a>
                             <div class="price">
                                 <strong>
                                     <em>¥</em>
@@ -355,6 +358,7 @@
                                 <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
                             </div>
                         </div>
+
                     </li><!--
                     <li class="yui3-u-1-5">
                         <div class="list-wrap">

@@ -105,6 +105,7 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,$loca
 			function(response){
 				if(response.success){
 					$scope.reloadList();//刷新列表
+                    $scope.selectIds=[];//选中的ID集合
 				}						
 			}		
 		);				

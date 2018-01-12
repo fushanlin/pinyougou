@@ -1,6 +1,14 @@
 package com.pinyougou.sellergoods.controller;
 import java.util.List;
 
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +31,17 @@ public class GoodsController {
 
 	@Reference
 	private GoodsService goodsService;
+	
+
+	@Autowired
+	private JmsTemplate jmsTemplate;
+
+	@Autowired
+	private Destination topicPageDeleteDestination;//用于删除静态网页的消息
+	
+
+	@Autowired
+	private Destination queueSolrDeleteDestination;// 用户在索引库中删除记录
 	
 	/**
 	 * 返回全部列表
@@ -77,9 +96,31 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/delete")
-	public Result delete(Long [] ids){
+	public Result delete(final Long [] ids){
 		try {
 			goodsService.delete(ids);
+			
+			System.out.println(ids.length);
+			System.out.println(ids[0]);
+			// itemSearchService.deleteByGoodsIds(Arrays.asList(ids));
+			jmsTemplate.send(queueSolrDeleteDestination, new MessageCreator() {
+				@Override
+				public Message createMessage(Session session) throws JMSException {
+					System.out.println("queueSolrDeleteDestination:"+ids[0]);
+					return session.createObjectMessage(ids);
+				}
+			});
+			
+			//删除页面
+			jmsTemplate.send(topicPageDeleteDestination, new MessageCreator() {		
+				@Override
+				public Message createMessage(Session session) throws JMSException {	
+					System.out.println("topicPageDeleteDestination:"+ids[0]);
+					return session.createObjectMessage(ids);
+				}
+			});	
+			
+			
 			return new Result(true, "删除成功"); 
 		} catch (Exception e) {
 			e.printStackTrace();
