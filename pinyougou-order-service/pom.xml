@@ -6,7 +6,7 @@
 		<artifactId>pinyougou-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>pinyougou-cart-web</artifactId>
+	<artifactId>pinyougou-order-service</artifactId>
 	<packaging>war</packaging>
 
 	<dependencies>
@@ -77,50 +77,6 @@
 			<artifactId>servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>com.pinyougou</groupId> <artifactId>pinyougou-common</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> </dependency> <dependency> <groupId>com.pinyougou</groupId> 
-			<artifactId>pinyougou-pojo</artifactId> <version>0.0.1-SNAPSHOT</version> 
-			</dependency> <dependency> <groupId>com.pinyougou</groupId> <artifactId>pinyougou-sellergoods-interface</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> </dependency> -->
-		<!-- 身份验证 -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.pinyougou</groupId>
-			<artifactId>pinyougou-cart-interface</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<!-- 因为使用消息中间件，所将这个依赖注释掉 -->
-		<!-- <dependency> <groupId>com.pinyougou</groupId> <artifactId>pinyougou-search-interface</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> </dependency> -->
-		<!-- <dependency> <groupId>com.pinyougou</groupId> <artifactId>pinyougou-page-interface</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> </dependency> -->
-
-		<!-- <dependency> <groupId>org.apache.activemq</groupId> <artifactId>activemq-client</artifactId> 
-			<version>5.13.4</version> </dependency> -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-cas</artifactId>
-			<version>4.1.0.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jasig.cas.client</groupId>
-			<artifactId>cas-client-core</artifactId>
-			<version>3.3.3</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>log4j-over-slf4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<dependency>
 			<groupId>com.pinyougou</groupId>
 			<artifactId>pinyougou-common</artifactId>
@@ -128,7 +84,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.pinyougou</groupId>
-			<artifactId>pinyougou-user-interface</artifactId>
+			<artifactId>pinyougou-dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -137,6 +93,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<!-- 配置Tomcat插件 -->
@@ -145,7 +102,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
 					<path>/</path>
-					<port>9107</port>
+					<port>9008</port>
 				</configuration>
 			</plugin>
 		</plugins>
