@@ -88,8 +88,8 @@ public class CartController {
 			List<Cart> cartList = findCartList();// 获取购物车列表
 			cartList = cartService.addGoodsToCartList(cartList, itemId, num);
 			if (username.equals("anonymousUser")) { // 如果是未登录，保存到cookie
-				util.CookieUtil.setCookie(request, response, "cartList", JSON.toJSONString(cartList), 3600 * 24,
-						"UTF-8");
+				//可以提示登陆账号
+				util.CookieUtil.setCookie(request, response, "cartList", JSON.toJSONString(cartList), 3600 * 24,"UTF-8");
 				System.out.println("向cookie存入数据");
 			} else {// 如果是已登录，保存到redis
 				cartService.saveCartListToRedis(username, cartList);

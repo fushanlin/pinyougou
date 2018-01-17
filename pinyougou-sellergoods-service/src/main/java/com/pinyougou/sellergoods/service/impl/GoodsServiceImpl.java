@@ -66,10 +66,10 @@ public class GoodsServiceImpl implements GoodsService {
 	/**
 	 * 增加
 	 */
-	@Override
+/*	@Override
 	public void add(TbGoods goods) {
 		goodsMapper.insert(goods);
-	}
+	}*/
 
 	/**
 	 * 修改
@@ -238,6 +238,7 @@ public class GoodsServiceImpl implements GoodsService {
 				itemMapper.insert(item);
 			}
 		} else {
+
 			TbItem item = new TbItem();
 			item.setTitle(goods.getGoods().getGoodsName());// 商品KPU+规格描述串作为SKU名称
 			item.setPrice(goods.getGoods().getPrice());// 价格
@@ -252,12 +253,13 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	private void setItemValus(Goods goods, TbItem item) {
+
 		item.setGoodsId(goods.getGoods().getId());// 商品SPU编号
 		item.setSellerId(goods.getGoods().getSellerId());// 商家编号
 		item.setCategoryid(goods.getGoods().getCategory3Id());// 商品分类编号（3级）
 		item.setCreateTime(new Date());// 创建日期
 		item.setUpdateTime(new Date());// 修改日期
-
+		item.setPrice(goods.getGoods().getPrice());//设置价钱
 		// 品牌名称
 		TbBrand brand = brandMapper.selectByPrimaryKey(goods.getGoods().getBrandId());
 		item.setBrand(brand.getName());
@@ -281,12 +283,19 @@ public class GoodsServiceImpl implements GoodsService {
 			TbGoods goods = goodsMapper.selectByPrimaryKey(id);
 			goods.setAuditStatus(status);
 			goodsMapper.updateByPrimaryKey(goods);
+				
+			TbItem record = new TbItem();
+			record.setStatus("1");
+			TbItemExample example = new TbItemExample();
+			com.pinyougou.pojo.TbItemExample.Criteria createCriteria = example.createCriteria();
+			createCriteria.andGoodsIdEqualTo(id);
+			itemMapper.updateByExampleSelective(record, example);		
 		}
 	}	
 	@Override
 	public List<TbItem> findItemListByGoodsIdandStatus(Long[] goodsIds, String status) {
 		TbItemExample example=new TbItemExample();
-	com.pinyougou.pojo.TbItemExample.Criteria criteria = example.createCriteria();
+		com.pinyougou.pojo.TbItemExample.Criteria criteria = example.createCriteria();
 		criteria.andGoodsIdIn(Arrays.asList(goodsIds));
 		criteria.andStatusEqualTo(status);
 		return itemMapper.selectByExample(example);

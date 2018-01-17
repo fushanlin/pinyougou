@@ -9,6 +9,7 @@
 	<http pattern="/js/**" security="none"></http>
 	<http pattern="/image/**" security="none"></http>
 	<http pattern="/plugins/**" security="none"></http>
+	<http pattern="/149187842867981.html" security="none"></http>
 	
 	<http pattern="/cart.html" security="none"></http>
 <!-- 	<http pattern="/cart/*.do" security="none"></http>

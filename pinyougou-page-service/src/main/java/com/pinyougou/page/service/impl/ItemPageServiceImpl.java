@@ -75,6 +75,8 @@ public class ItemPageServiceImpl implements ItemPageService {
 			criteria.andGoodsIdEqualTo(goodsId);// 指定SPU ID
 			example.setOrderByClause("is_default desc");// 按照状态降序，保证第一个为默认
 			List<TbItem> itemList = itemMapper.selectByExample(example);
+			System.out.println("#"+itemList.size());
+			System.out.println("#"+itemList);
 			dataModel.put("itemList", itemList);
 
 			Writer out = new FileWriter(pagedir + goodsId + ".html");

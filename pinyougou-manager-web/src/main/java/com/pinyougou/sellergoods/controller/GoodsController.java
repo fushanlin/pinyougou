@@ -77,7 +77,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public Result add(@RequestBody TbGoods goods) {
+	public Result add(@RequestBody Goods goods) {
 		try {
 			goodsService.add(goods);
 			return new Result(true, "增加成功");
@@ -208,17 +208,4 @@ public class GoodsController {
 			return new Result(false, "修改状态失败");
 		}
 	}
-
-	// @Reference(timeout = 40000)
-	// private ItemPageService itemPageService;
-
-	/**
-	 * 生成静态页（测试）
-	 * 
-	 * @param goodsId
-	 */
-/*	@RequestMapping("/genHtml")
-	public void genHtml(Long goodsId) {
-		// itemPageService.genItemHtml(goodsId);
-	}*/
 }
