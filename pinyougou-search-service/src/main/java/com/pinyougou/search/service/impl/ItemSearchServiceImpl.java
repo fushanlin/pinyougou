@@ -31,7 +31,7 @@ import com.pinyougou.search.service.ItemSearchService;
 
 @Service(timeout = 3000)
 public class ItemSearchServiceImpl implements ItemSearchService {
-
+	
 	@Autowired
 	private SolrTemplate solrTemplate;
 

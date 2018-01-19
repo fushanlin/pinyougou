@@ -26,19 +26,26 @@ app.controller('cartController',function($scope,cartService){
 		cartService.findAddressList().success(
 			function(response){
 				$scope.addressList=response;
+				//设置默认地址
+				for(var i=0;i< $scope.addressList.length;i++){
+					if($scope.addressList[i].isDefault=='1'){
+						$scope.address=$scope.addressList[i];
+						break;
+					}					
+				}	
 			}		
 		);		
 	}
 	//选择地址
 	$scope.selectAddress=function(address){
 		$scope.address=address;		
-		//设置默认地址
-		for(var i=0;i< $scope.addressList.length;i++){
-			if($scope.addressList[i].isDefault=='1'){
-				$scope.address=$scope.addressList[i];
-				break;
-			}					
-		}	
+		//设置默认地址	
+//		for(var i=0;i< $scope.addressList.length;i++){
+//			if($scope.addressList[i].isDefault=='1'){
+//				$scope.address=$scope.addressList[i];
+//				break;
+//			}					
+//		}	
 	}
 	
 	//判断是否是当前选中的地址
