@@ -186,7 +186,6 @@ public class GoodsController {
 					});
 				} else {
 					System.out.println("没有明细数据");
-
 				}
 				System.out.println("测试");
 				// 静态页生成

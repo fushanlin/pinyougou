@@ -1,5 +1,5 @@
 //控制层 
-app.controller('seckillGoodsController' ,function($scope,seckillGoodsService,$location){	
+app.controller('seckillGoodsController' ,function($scope,seckillGoodsService,$location,$interval){	
 	 //读取列表数据绑定到表单中  
 	$scope.findList=function(){
 		seckillGoodsService.findList().success(
@@ -9,15 +9,28 @@ app.controller('seckillGoodsController' ,function($scope,seckillGoodsService,$lo
 		);
 	}       
 	
+/*	$scope.second=10;
+	
+	time = $interval(function () {
+		$scope.second=$scope.second-1;
+		if($scope.second<=0){
+			$interval.cancel(time);
+		}
+	},1000);*/
+	
+	
+	
+	//$scope.second=0;
 	//查询实体 
 	$scope.findOne=function(){	
 		seckillGoodsService.findOne($location.search()['id']).success(
 			function(response){
 				$scope.entity= response;	
+				//$scope.second=(new Date($scope.entity.endTime).getTime()-new Date().getTime())/1000;
 				allsecond =Math.floor( (  new Date($scope.entity.endTime).getTime()- (new Date().getTime())) /1000); //总秒数
 				time= $interval(function(){ 
-				  if(second>0){ 
-					second =second-1;
+				  if(allsecond>0){ 
+					  allsecond =allsecond-1;
 					$scope.timeString=convertTimeString(allsecond);//转换时间字符串
 				  }else{
 					  $interval.cancel(time); 		  

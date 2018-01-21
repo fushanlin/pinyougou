@@ -83,4 +83,10 @@ public interface SeckillOrderService {
 	 * @param orderId
 	 */
 	public void deleteOrderFromRedis(String userId,Long orderId);
+	/**
+	 * 提交订单
+	 * @param seckillId
+	 * @param userId
+	 */
+	public void submitOrder(Long seckillId,String userId);
 }

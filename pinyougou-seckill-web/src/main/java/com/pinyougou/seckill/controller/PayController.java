@@ -1,6 +1,7 @@
 package com.pinyougou.seckill.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +12,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.order.service.OrderService;
 import com.pinyougou.pay.service.WeixinPayService;
 import com.pinyougou.pojo.TbPayLog;
+import com.pinyougou.pojo.TbSeckillOrder;
 import com.pinyougou.seckill.service.SeckillOrderService;
 
 import entity.Result;
@@ -28,9 +30,6 @@ public class PayController {
 	private WeixinPayService weixinPayService;
 
 	@Reference
-	private OrderService orderService;
-	
-	@Reference
 	private SeckillOrderService seckillOrderService;
 	/**
 	 * 生成二维码
@@ -41,10 +40,10 @@ public class PayController {
 		//获取当前用户		
 		String userId=SecurityContextHolder.getContext().getAuthentication().getName();
 		//到redis查询支付日志
-		TbPayLog payLog = orderService.searchPayLogFromRedis(userId);
+		TbSeckillOrder seckillOrder = seckillOrderService.searchOrderFromRedisByUserId(userId);
 		//判断支付日志存在
-		if(payLog!=null){
-			return weixinPayService.createNative(payLog.getOutTradeNo(),payLog.getTotalFee()+"");
+		if(seckillOrder!=null){
+			return weixinPayService.createNative(seckillOrder.getId()+"",(long)(seckillOrder.getMoney().doubleValue()*100)+"");
 		}else{
 			return new HashMap();
 		}		
@@ -56,6 +55,10 @@ public class PayController {
 	 */
 	@RequestMapping("/queryPayStatus")
 	public Result queryPayStatus(String out_trade_no){
+		
+		//获取当前用户		
+		String userId=SecurityContextHolder.getContext().getAuthentication().getName();
+		
 		Result result=null;		
 		int x=0;	
 		while(true){
@@ -68,9 +71,12 @@ public class PayController {
 			if(map.get("trade_state").equals("SUCCESS")){//如果成功				
 				result=new  Result(true, "支付成功");
 				//修改订单状态
-				orderService.updateOrderStatus(out_trade_no, map.get("transaction_id"));
+				//seckillOrderService.updateOrderStatus(out_trade_no, map.get("transaction_id"));
+				//保存订单
+				seckillOrderService.saveOrderFromRedisToDb(userId, Long.valueOf(out_trade_no), map.get("transaction_id"));
 				break;
 			}			
+
 			try {
 				Thread.sleep(3000);//间隔三秒
 			} catch (InterruptedException e) {
@@ -80,20 +86,20 @@ public class PayController {
 			x++;
 			if(x>=100){
 				result=new  Result(false, "二维码超时");
-				
+				//关闭支付
 				//1.调用微信的关闭订单接口（学员实现）
-/*				Map<String,String> payresult = weixinPayService.closePay(out_trade_no);				
+				Map<String,String> payresult = weixinPayService.closePay(out_trade_no);				
 				if( !"SUCCESS".equals(payresult.get("result_code")) ){//如果返回结果是正常关闭
 					if("ORDERPAID".equals(payresult.get("err_code"))){
 						result=new Result(true, "支付成功");	
 						seckillOrderService.saveOrderFromRedisToDb(userId, Long.valueOf(out_trade_no), map.get("transaction_id"));
 					}					
-				}				
+				}			
 				if(result.isSuccess()==false){
 					System.out.println("超时，取消订单");
 					//2.调用删除
 					seckillOrderService.deleteOrderFromRedis(userId, Long.valueOf(out_trade_no));	
-				}	*/		
+				}			
 				
 				break;
 			}

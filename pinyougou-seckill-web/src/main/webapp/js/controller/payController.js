@@ -1,7 +1,6 @@
 app.controller('payController' ,function($scope ,payService,$location){	
 	//本地生成二维码
 	$scope.createNative=function(){
-		alert("测试createNative")
 		payService.createNative().success(
 			function(response){
 				alert($scope.money)
@@ -20,14 +19,16 @@ app.controller('payController' ,function($scope ,payService,$location){
 	}	
 	//查询支付状态 
 	queryPayStatus=function(out_trade_no){
-		alert("测试queryPayStatus")
+		alert("queryPayStatus");
 		payService.queryPayStatus(out_trade_no).success(
 			function(response){
+				alert("response");
 				if(response.success){
 					location.href="paysuccess.html#?money="+$scope.money;
 				}else{					
 					if(response.message=='二维码超时'){
-						$scope.createNative();//重新生成二维码					
+						//$scope.createNative();//重新生成二维码		
+						alert("二维码超时");
 					}else{
 						location.href="payfail.html";
 					}									
@@ -37,7 +38,6 @@ app.controller('payController' ,function($scope ,payService,$location){
 	}
 	//获取金额
 	$scope.getMoney=function(){
-		alert("测试getMoney")
 		return $location.search()['money'];
 	}
 });

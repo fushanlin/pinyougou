@@ -1,14 +1,13 @@
 package com.pinyougou.seckill.controller;
 import java.util.List;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbSeckillGoods;
 import com.pinyougou.seckill.service.SeckillGoodsService;
-import com.pinyougou.seckill.service.SeckillOrderService;
 
 import entity.PageResult;
 import entity.Result;
@@ -128,22 +127,5 @@ public class SeckillGoodsController {
 	public TbSeckillGoods findOneFromRedis(Long id){
 		return seckillGoodsService.findOneFromRedis(id);		
 	}
-	@RequestMapping("/submitOrder")
-	public Result submitOrder(Long seckillId){
-			String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-			if("anonymousUser".equals(userId)){//如果未登录
-				return new Result(false, "用户未登录");
-			}
-			try {
-				//seckillOrderService.submitOrder(seckillId, userId);
-				seckillGoodsService.submitOrder(seckillId, userId);
-				return new Result(true, "提交成功");
-			}catch (RuntimeException e) {
-				e.printStackTrace();
-				return new Result(false, e.getMessage());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new Result(false, "提交失败");
-			}
-	}
+	
 }
